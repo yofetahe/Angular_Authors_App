@@ -10,7 +10,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class AuthorUpdateComponent implements OnInit {
 
   author_id: string;
+
   author: any = {    
+    name: '',
+    image: ''
+  };
+
+  errorMessage: any = {
     name: '',
     image: ''
   };
@@ -30,18 +36,31 @@ export class AuthorUpdateComponent implements OnInit {
 
   getAuthorById(id: string){
     this._http.getAuthorById(id).subscribe(data => {
-      this.author = { id: data[0]['_id'], name: data[0]['name'], image: data[0]['image'] }
+      this.author = { 
+        id: data[0]['_id'], 
+        name: data[0]['name'], 
+        image: data[0]['image'] 
+      }
     });
   }
 
   updateAuthorInfo(){
-    this._http.updateAuthor(this.author_id, this.author).subscribe(data => {
-      this._router.navigate(['/list']);
+
+    this.errorMessage = { name: '', image: '' };
+    
+    this._http.updateAuthor(this.author_id, this.author).subscribe(data => {      
+      if(data['errors']){
+        if(data['errors']['name'])
+          this.errorMessage.name = data['errors']['name']['message']
+        if(data['errors']['image'])
+          this.errorMessage.image = data['errors']['image']['message']
+      } else {
+        this._router.navigate(['/list']);
+      }
     });
   }
 
   cancelAuthorAdding(){
     this._router.navigate(['/list']);
   }
-
 }

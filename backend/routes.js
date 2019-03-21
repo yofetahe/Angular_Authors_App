@@ -1,4 +1,5 @@
 const controllers = require('./controllers');
+const path = require('path')
 
 module.exports = app => {
 
@@ -9,4 +10,8 @@ module.exports = app => {
         .put('/api/authors/:id', controllers.updateAuthor)
         .put('/api/authors/books/:id', controllers.updateAuthorBooks)
         .delete('/api/authors/:id', controllers.deleteAuthor)
+        .all("*", (req,res,next) => {
+            res.sendFile(path.resolve("./public/dist/Authors/index.html"))
+        });
+          
 }

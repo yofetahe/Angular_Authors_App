@@ -16,9 +16,8 @@ module.exports = {
   },
 
   addAuthor: (req, res) => {
-    const DATA = req.body;
-    console.log(DATA);
-    Author.create(DATA)
+    const DATA = req.body;    
+    Author.create(DATA, {runValidators: true})
       .then(data => res.json(data))
       .catch(err => res.json(err));
   },
@@ -26,7 +25,7 @@ module.exports = {
   updateAuthor: (req, res) => {
     const ID = req.params.id;
     const DATA = req.body;
-    Author.findOneAndUpdate({ _id: ID }, DATA)
+    Author.updateOne({ _id: ID }, DATA, {runValidators: true})
       .then(data => res.json(data))
       .catch(err => res.json(err));
   },
@@ -34,7 +33,7 @@ module.exports = {
   updateAuthorBooks: (req, res) => {
     const ID = req.params.id;
     const DATA = req.body;
-    Author.updateOne({ _id: ID }, {$push: {books: DATA}})
+    Author.updateOne({ _id: ID }, {$push: {books: DATA}}, {runValidators: true})
       .then(data => res.json(data))
       .catch(err => res.json(err));
   },

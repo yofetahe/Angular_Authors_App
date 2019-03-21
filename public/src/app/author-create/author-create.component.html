@@ -4,11 +4,16 @@
 
 <div>
 
-  <form method="POST">    
+  <form method="POST">
+
     <label for="">Name:</label>
+    <div class="errorMessage">{{errorMessage.name}}</div>
     <input type="text" [(ngModel)]="author.name" name="author.name" >
+
     <label for="">Author Picture:</label>
+    <div class="errorMessage">{{errorMessage.image}}</div>
     <input type="text" [(ngModel)]="author.image" name="author.image" >
+
     <button class="waves-effect waves-light btn" (click)="cancelAuthorAdding()">Cancel</button> &nbsp;
     <button class="waves-effect waves-light btn" (click)="addAuthorInfo()">Submit</button>
   </form>

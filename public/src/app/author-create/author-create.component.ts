@@ -9,7 +9,12 @@ import { HttpService } from '../http.service';
 })
 export class AuthorCreateComponent implements OnInit {
 
-  author = {
+  author: any = {
+    name: '',
+    image: ''
+  }
+
+  errorMessage: any = {
     name: '',
     image: ''
   }
@@ -20,6 +25,7 @@ export class AuthorCreateComponent implements OnInit {
     private _router: Router) { }
 
   ngOnInit() {
+    
   }
 
   cancelAuthorAdding(){
@@ -27,9 +33,17 @@ export class AuthorCreateComponent implements OnInit {
   }
 
   addAuthorInfo(){
+    this.errorMessage = { name: '', image: '' }   
     this._httpService.addAuthor(this.author).subscribe(data => {
-      this.author = { name: '', image: '' }
-      this._router.navigate(['/list']);
+      if(data['errors']){             
+        if(data['errors']['name'])
+          this.errorMessage.name = data['errors']['name']['message']
+        if(data['errors']['image'])
+          this.errorMessage.image = data['errors']['image']['message']
+      } else {
+        this.author = { name: '', image: '' }
+        this._router.navigate(['/list']);
+      }
     });
   }
 

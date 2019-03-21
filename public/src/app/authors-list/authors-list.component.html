@@ -12,11 +12,12 @@
     <tbody>
       <tr *ngFor="let author of authors">
         <td> 
-          <div> <img src="{{author.image}}" alt="photo"> </div>
-          
+          <div> <img src="{{author.image}}" alt="photo"> </div>          
         </td>
         <td> {{author.name}} </td>
-        <td> Books </td>
+        <td> 
+          <span *ngFor="let book of author.books">{{book.title}}, &nbsp;</span> 
+        </td>
         <td> 
           <button class="waves-effect waves-light btn" (click)="getBookList([author._id])">Add Books</button> &nbsp; 
           <button class="waves-effect waves-light btn" (click)="getUpdateForm([author._id])">Edit</button> &nbsp; 
